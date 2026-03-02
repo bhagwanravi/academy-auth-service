@@ -1,0 +1,166 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        
+  h2:
+    console:
+      enabled: true
+      
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME:bhagwanravi97@gmail.com}
+    password: ${EMAIL_PASSWORD:ansm lywz qxxp bvpv}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+email:
+  from: ${EMAIL_FROM_ID:bhagwanravi97@gmail.com}
+
+verificationHost:
+  link: https://academy-${spring.profiles.active:default}.com/academy/api/
+
+emailNotification:
+  email: bhagwanravi97@gmail.com
+  password: ansm lywz qxxp bvpv
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+    register-with-eureka: ${EUREKA_REGISTER:true}
+    fetch-registry: ${EUREKA_FETCH:true}
+    healthcheck:
+      enabled: true
+    registry-fetch-interval-seconds: 30
+    eureka-server-connect-timeout-seconds: 5
+    eureka-server-read-timeout-seconds: 8
+    eureka-server-total-connections: 200
+    eureka-server-total-connections-per-host: 50
+  instance:
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+    hostname: ${HOSTNAME:localhost}
+    health-check-url-path: /actuator/health
+    status-page-url: http://localhost:8081/swagger-ui.html
+    home-page-url: http://localhost:8081/swagger-ui.html
+
+jwt:
+  secret: ${JWT_SECRET:rxjHJ9PsG0ExDm2LJ4RVtOOWz3kuKi7MMw+Sh4YLA0V/KfG+HBBk4LJxg7sEU+U86OJXyzDUidk6vRGr3/l1MQ==}
+  expiration: 86400000 # 24 hours
+  refresh-expiration: 604800000 # 7 days
+
+logging:
+  level:
+    com.example.academy.auth: DEBUG
+    org.springframework.security: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,eureka,env
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: true
+  health:
+    defaults:
+      enabled: true
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+  info:
+    title: Auth Service API
+    description: Authentication and Authorization API for Academy Management System
+    version: 1.0.0
+    contact:
+      name: Academy Management Team
+#      email: bhagwankumarcr7@gmail.com
+
+# Security Configuration
+app:
+  security:
+    public-paths:
+      - /api/auth/**
+      - /api/test/admin/**
+      - /swagger-ui/**
+      - /v3/api-docs/**
+      - /api-docs/**
+      - /swagger-ui.html
+      - /h2-console/**
+      - /actuator/**
+      - /actuator/health
+      - /actuator/info
+      - /actuator/metrics
+    unauthorized-api-paths:
+      - /api/auth/login
+      - /api/auth/register
+      - /api/auth/forgot-password
+      - /api/auth/reset-password
+      - /api/auth/verify-email
+    admin-api-paths:
+      - /api/admin/**
+      - /api/management/**
+    superadmin-api-paths:
+      - /api/superadmin/**
+      - /api/system/**
+    cors:
+      enabled: true
+      allowed-origins:
+        - "*"
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowed-headers:
+        - "*"
+      exposed-headers:
+        - "*"
+      allow-credentials: true
+      max-age: 3600

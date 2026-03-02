@@ -1,0 +1,136 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        
+  h2:
+    console:
+      enabled: true
+      
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+email:
+  from: ${EMAIL_FROM_ID}
+
+verificationHost:
+  link: http://localhost:8081/academy/api/
+
+emailNotification:
+  email: ${EMAIL_NOTIFICATION_EMAIL}
+  password: ${EMAIL_NOTIFICATION_PASSWORD}
+
+# Disable Eureka for standalone mode
+eureka:
+  client:
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 86400000 # 24 hours
+  refresh-expiration: 604800000 # 7 days
+
+logging:
+  level:
+    com.example.academy.auth: DEBUG
+    org.springframework.security: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+  info:
+    title: Auth Service API
+    description: Authentication and Authorization API for Academy Management System
+    version: 1.0.0
+    contact:
+      name: Academy Management Team
+      email: bhagwanravi97@gmai
+
+# Security Configuration
+app:
+  security:
+    public-paths:
+      - /api/auth/**
+      - /api/test/admin/**
+      - /swagger-ui/**
+      - /v3/api-docs/**
+      - /api-docs/**
+      - /swagger-ui.html
+      - /h2-console/**
+    unauthorized-api-paths:
+      - /api/auth/login
+      - /api/auth/register
+      - /api/auth/forgot-password
+      - /api/auth/reset-password
+      - /api/auth/verify-email
+    admin-api-paths:
+      - /api/admin/**
+      - /api/management/**
+    superadmin-api-paths:
+      - /api/superadmin/**
+      - /api/system/**
+    cors:
+      enabled: true
+      allowed-origins:
+        - "*"
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowed-headers:
+        - "*"
+      exposed-headers:
+        - "*"
+      allow-credentials: true
+      max-age: 3600
