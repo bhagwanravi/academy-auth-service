@@ -1,4 +1,4 @@
-package com.example.academy.auth.enums;
+package com.example.academy.auth.dto.enums;
 
 public enum Role {
     SUPER_ADMIN,

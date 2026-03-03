@@ -1,6 +1,5 @@
 package com.example.academy.auth.service;
 
-import com.example.academy.auth.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;

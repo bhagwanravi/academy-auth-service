@@ -1,8 +1,7 @@
 package com.example.academy.auth.repository;
 
-import com.example.academy.auth.entity.User;
-import com.example.academy.auth.enums.Role;
-import com.example.academy.auth.enums.UserStatus;
+import com.example.academy.auth.dto.enums.Role;
+import com.example.academy.auth.dto.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

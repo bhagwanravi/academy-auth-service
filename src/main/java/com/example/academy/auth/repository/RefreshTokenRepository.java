@@ -1,7 +1,6 @@
 package com.example.academy.auth.repository;
 
 import com.example.academy.auth.entity.RefreshToken;
-import com.example.academy.auth.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
